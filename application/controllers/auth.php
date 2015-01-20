@@ -117,7 +117,7 @@ class Auth extends CI_Controller
 	 *
 	 * @return void
 	 */
-	function register()
+	function register($return_to = "")
 	{
 		if ($this->tank_auth->is_logged_in()) {									// logged in
 			redirect('');
@@ -157,6 +157,7 @@ class Auth extends CI_Controller
 						$this->form_validation->set_value('password'),
 						$email_activation))) {									// success
 
+
 					$data['site_name'] = $this->config->item('website_name', 'tank_auth');
 
 					if ($email_activation) {									// send "activate" email
@@ -175,7 +176,9 @@ class Auth extends CI_Controller
 						}
 						unset($data['password']); // Clear password (just for any case)
 
-						$this->_show_message($this->lang->line('auth_message_registration_completed_2').' '.anchor('/auth/login/', 'Login'));
+						$decoded_uri = preg_replace('"_"','/',$return_to);
+						redirect($decoded_uri);
+						//$this->_show_message($this->lang->line('auth_message_registration_completed_2').' '.anchor('/auth/login/', 'Login'));
 					}
 				} else {
 					$errors = $this->tank_auth->get_error_message();

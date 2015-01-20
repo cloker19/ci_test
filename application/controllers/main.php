@@ -21,7 +21,7 @@ class Main extends CI_Controller {
  
     public function brands()
     {
-        
+
         if (!$this->tank_auth->is_logged_in()) {
           $encoded_uri = preg_replace('"/"', '_', $this->uri->uri_string());
           redirect('/auth/login/'.$encoded_uri);
@@ -35,6 +35,7 @@ class Main extends CI_Controller {
                 $crud->display_as('brand','Marca');
                 $crud->display_as('model','Modelo');
                 $output = $crud->render();
+                $output->username= $this->tank_auth->get_username();
 
          
                 $this->test_crud($output);                
